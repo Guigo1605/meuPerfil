@@ -40,6 +40,28 @@
         #profileImageArea:hover #imageOverlay {
             opacity: 1;
         }
+
+        .hobby-item {
+            position: relative;
+        }
+
+        .delete-hobby {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 18px;
+            color: red;
+            cursor: pointer;
+            display: none;
+        }
+
+        .hobby-item:hover .delete-hobby {
+            display: block;
+        }
+
+        .hobby-item:hover {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body>
@@ -54,9 +76,9 @@
                 <p id="profileAge">Idade: 18</p>
                 <h5>Hobbies:</h5>
                 <ul id="hobbiesList" class="list-group mb-3">
-                    <li class="list-group-item">Leitura</li>
-                    <li class="list-group-item">Esportes</li>
-                    <li class="list-group-item">Músicas</li>
+                    <li class="list-group-item hobby-item">Leitura <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
+                    <li class="list-group-item hobby-item">Esportes <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
+                    <li class="list-group-item hobby-item">Músicas <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
                 </ul>
                 <button class="btn btn-primary me-2" onclick="alterarNome()">Alterar Nome</button>
                 <button class="btn btn-secondary me-2" onclick="alterarIdade()">Alterar Idade</button>
@@ -87,9 +109,23 @@
         const novoHobby = prompt("Digite um novo hobby:");
         if (novoHobby) {
             const li = document.createElement("li");
+            li.className = "list-group-item hobby-item";
             li.textContent = novoHobby;
-            li.className = "list-group-item";
+            const span = document.createElement("span");
+            span.className = "delete-hobby";
+            span.textContent = "×";
+            span.onclick = function(event) {
+                excluirHobby(event);
+            };
+            li.appendChild(span);
             document.getElementById("hobbiesList").appendChild(li);
+        }
+    }
+
+    function excluirHobby(event) {
+        const hobbyItem = event.target.closest(".hobby-item");
+        if (hobbyItem) {
+            hobbyItem.remove();
         }
     }
 
