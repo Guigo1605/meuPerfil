@@ -8,13 +8,35 @@
     <style>
         body {
             background-color: #f8f9fa;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        .card {
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        #profileCard {
+            width: 100%;
+            max-width: 1000px; /* Pode ser ajustado para a largura desejada */
+            height: 100%;
+            padding: 20px;
             border-radius: 10px;
-            overflow: hidden;
+            background-color: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         #profileImageArea {
@@ -23,16 +45,12 @@
             width: 150px;
             height: 150px;
             margin-bottom: 15px;
-            border-radius: 50%;
             cursor: pointer;
-            overflow: hidden;
-            border: 5px solid #fff;
         }
 
         #profileImage {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             border-radius: 50%;
         }
 
@@ -42,14 +60,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(128, 128, 128, 0.5);
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 16px;
+            border-radius: 50%;
             opacity: 0;
             transition: opacity 0.3s ease;
+            cursor: pointer;
         }
 
         #profileImageArea:hover #imageOverlay {
@@ -84,12 +104,15 @@
             display: block;
         }
 
-        .container {
-            max-width: 800px;
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .btn-custom {
-            margin-right: 10px;
+        .btn-group .btn {
+            flex: 1 1 100%;
         }
 
         .section-title {
@@ -98,175 +121,149 @@
             font-weight: bold;
         }
 
-        .profile-info {
-            padding-left: 0;
-            list-style: none;
-        }
+        /* Responsividade */
+        @media (max-width: 576px) {
+            #profileImageArea {
+                width: 120px;
+                height: 120px;
+            }
 
-        .profile-info li {
-            margin-bottom: 10px;
-            font-size: 18px;
-        }
+            #profileImage {
+                width: 120px;
+                height: 120px;
+            }
 
-        .buttons-container {
-            margin-top: 20px;
-        }
+            .container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
 
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .btn-group .btn {
-            flex: 1 1 auto;
-        }
-
-        .modal-content {
-            padding: 20px;
+            .btn-group .btn {
+                flex: 1 1 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-light py-5">
-        <div class="container">
-            <div class="card">
-                <div class="text-center">
-                    <div id="profileImageArea" class="mb-3" onclick="abrirMenuImagem()">
-                        <img src="https://via.placeholder.com/150" alt="Imagem de Perfil" id="profileImage" class="rounded-circle">
-                        <div id="imageOverlay">Alterar Foto</div>
-                    </div>
-                    <h3 id="profileName">Nome Meu Perfil</h3>
-                    <ul class="profile-info">
-                        <li id="profileAge">Idade: 18</li>
-                    </ul>
-                </div>
-
-                <div class="mt-4">
-                    <h5 class="section-title">Hobbies:</h5>
-                    <ul id="hobbiesList" class="list-group">
-                        <li class="list-group-item hobby-item">Leitura <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
-                        <li class="list-group-item hobby-item">Esportes <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
-                        <li class="list-group-item hobby-item">Músicas <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
-                    </ul>
-                </div>
-
-                <div class="buttons-container">
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="alterarNome()">Alterar Nome</button>
-                        <button class="btn btn-secondary" onclick="alterarIdade()">Alterar Idade</button>
-                        <button class="btn btn-success" onclick="adicionarHobby()">Adicionar Hobby</button>
-                        <button class="btn btn-warning" onclick="mudarCorDeFundo()">Mudar Cor de Fundo</button>
-                        <button class="btn btn-info" onclick="alterarFotoLink()">Alterar Foto de Perfil</button>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="card" id="profileCard">
+            <div id="profileImageArea" class="mb-3" onclick="abrirExploradorDeArquivos()">
+                <img src="https://via.placeholder.com/150" alt="Imagem de Perfil" id="profileImage" class="rounded-circle">
+                <div id="imageOverlay">Alterar Foto</div>
+            </div>
+            <h3 id="profileName">Nome Meu Perfil</h3>
+            <p id="profileAge">Idade: 18</p>
+            <h5>Hobbies:</h5>
+            <ul id="hobbiesList" class="list-group mb-3">
+                <li class="list-group-item hobby-item">Leitura <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
+                <li class="list-group-item hobby-item">Esportes <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
+                <li class="list-group-item hobby-item">Músicas <span class="delete-hobby" onclick="excluirHobby(event)">×</span></li>
+            </ul>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="alterarNome()">Alterar Nome</button>
+                <button class="btn btn-secondary" onclick="alterarIdade()">Alterar Idade</button>
+                <button class="btn btn-success" onclick="adicionarHobby()">Adicionar Hobby</button>
+                <button class="btn btn-warning" onclick="mudarCorDeFundo()">Mudar Cor de Fundo</button>
+                <button class="btn btn-info" onclick="alterarFotoLink()">Alterar Foto de Perfil</button>
             </div>
         </div>
     </div>
 
     <input type="file" id="fileInput" style="display:none;" onchange="alterarFotoArquivo(event)">
 
-    <!-- Modal para opções de alteração de foto -->
-    <div class="modal" tabindex="-1" id="imageOptionsModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Escolha uma opção</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <button class="btn btn-primary w-100 mb-2" onclick="abrirExploradorDeArquivos()">Abrir Gerenciador de Arquivos</button>
-                    <h6>Ou escolha uma imagem:</h6>
-                    <div class="d-flex flex-wrap justify-content-between">
-                        <img src="https://w7.pngwing.com/pngs/312/283/png-transparent-man-s-face-avatar-computer-icons-user-profile-business-user-avatar-blue-face-heroes-thumbnail.png" class="rounded-circle" style="width: 50px; height: 50px; cursor: pointer;" onclick="alterarImagemPredefinida('https://w7.pngwing.com/pngs/312/283/png-transparent-man-s-face-avatar-computer-icons-user-profile-business-user-avatar-blue-face-heroes-thumbnail.png')">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyFmBCFfrKGnUCXabdJm-oQmQ-fwUU23HOrlYVKqbA1njKWnjVvMAcFhcPYEzXm_ehfNg&usqp=CAU" class="rounded-circle" style="width: 50px; height: 50px; cursor: pointer;" onclick="alterarImagemPredefinida('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyFmBCFfrKGnUCXabdJm-oQmQ-fwUU23HOrlYVKqbA1njKWnjVvMAcFhcPYEzXm_ehfNg&usqp=CAU')">
-                        <img src="https://cdn-icons-png.flaticon.com/512/219/219969.png" class="rounded-circle" style="width: 50px; height: 50px; cursor: pointer;" onclick="alterarImagemPredefinida('https://cdn-icons-png.flaticon.com/512/219/219969.png')">
-                        <img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png" class="rounded-circle" style="width: 50px; height: 50px; cursor: pointer;" onclick="alterarImagemPredefinida('https://cdn-icons-png.flaticon.com/512/6997/6997662.png')">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-<script>
-    function alterarNome() {
-        const novoNome = prompt("Digite o novo nome:");
-        if (novoNome) {
-            document.getElementById("profileName").textContent = "Nome: " + novoNome;
-        }
-    }
-
-    function alterarIdade() {
-        const novaIdade = prompt("Digite a nova idade:");
-        if (novaIdade) {
-            document.getElementById("profileAge").textContent = "Idade: " + novaIdade;
-        }
-    }
-
-    function adicionarHobby() {
-        const novoHobby = prompt("Digite um novo hobby:");
-        if (novoHobby) {
-            const li = document.createElement("li");
-            li.className = "list-group-item hobby-item";
-            li.textContent = novoHobby;
-            const span = document.createElement("span");
-            span.className = "delete-hobby";
-            span.textContent = "×";
-            span.onclick = function(event) {
-                excluirHobby(event);
-            };
-            li.appendChild(span);
-            document.getElementById("hobbiesList").appendChild(li);
-        }
-    }
-
-    function excluirHobby(event) {
-        const hobbyItem = event.target.closest(".hobby-item");
-        if (hobbyItem) {
-            hobbyItem.remove();
-        }
-    }
-
-    function mudarCorDeFundo() {
-        const cores = ["#f8d7da", "#d4edda", "#fff3cd", "#cce5ff", "#d1ecf1"];
-        const corAleatoria = cores[Math.floor(Math.random() * cores.length)];
-        document.getElementById("profileCard").style.backgroundColor = corAleatoria;
-    }
-
-    function alterarFotoLink() {
-        const linkImagem = prompt("Digite o link da nova imagem:");
-        if (linkImagem) {
-            document.getElementById("profileImage").src = linkImagem;
-        }
-    }
-
-    function abrirMenuImagem() {
-        var modal = new bootstrap.Modal(document.getElementById('imageOptionsModal'));
-        modal.show();
-    }
-
-    function alterarImagemPredefinida(imagemUrl) {
-        document.getElementById("profileImage").src = imagemUrl;
-        var modal = bootstrap.Modal.getInstance(document.getElementById('imageOptionsModal'));
-        modal.hide();
-    }
-
-    function abrirExploradorDeArquivos() {
-        document.getElementById("fileInput").click();
-    }
-
-    function alterarFotoArquivo(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById("profileImage").src = e.target.result;
+    <script>
+        function alterarNome() {
+            const novoNome = prompt("Digite o novo nome:");
+            if (novoNome) {
+                document.getElementById("profileName").textContent = "Nome: " + novoNome;
             }
-            reader.readAsDataURL(file);
         }
-    }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        function alterarIdade() {
+            const novaIdade = prompt("Digite a nova idade:");
+            if (novaIdade) {
+                document.getElementById("profileAge").textContent = "Idade: " + novaIdade;
+            }
+        }
+
+        function adicionarHobby() {
+            const novoHobby = prompt("Digite um novo hobby:");
+            if (novoHobby) {
+                const li = document.createElement("li");
+                li.className = "list-group-item hobby-item";
+                li.textContent = novoHobby;
+                const span = document.createElement("span");
+                span.className = "delete-hobby";
+                span.textContent = "×";
+                span.onclick = function(event) {
+                    excluirHobby(event);
+                };
+                li.appendChild(span);
+                document.getElementById("hobbiesList").appendChild(li);
+            }
+        }
+
+        function excluirHobby(event) {
+            const hobbyItem = event.target.closest(".hobby-item");
+            if (hobbyItem) {
+                hobbyItem.remove();
+            }
+        }
+
+        function mudarCorDeFundo() {
+            const cores = ["#f8d7da", "#d4edda", "#fff3cd", "#cce5ff", "#d1ecf1"];
+            const corAleatoria = cores[Math.floor(Math.random() * cores.length)];
+            document.getElementById("profileCard").style.backgroundColor = corAleatoria;
+        }
+
+        function alterarFotoLink() {
+            const linkImagem = prompt("Digite o link da nova imagem:");
+            if (linkImagem) {
+                document.getElementById("profileImage").src = linkImagem;
+            }
+        }
+
+        function abrirExploradorDeArquivos() {
+            document.getElementById("fileInput").click();
+        }
+
+        function alterarFotoArquivo(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profileImage").src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        const profileImageArea = document.getElementById("profileImageArea");
+
+        profileImageArea.addEventListener("dragover", function(event) {
+            event.preventDefault();
+            profileImageArea.style.backgroundColor = "#e9ecef";
+        });
+
+        profileImageArea.addEventListener("dragleave", function() {
+            profileImageArea.style.backgroundColor = "#f8f9fa";
+        });
+
+        profileImageArea.addEventListener("drop", function(event) {
+            event.preventDefault();
+            profileImageArea.style.backgroundColor = "#f8f9fa";
+
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profileImage").src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
